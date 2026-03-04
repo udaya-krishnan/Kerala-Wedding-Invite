@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useRef, useState, useEffect } from 'react';
+import React, { createContext, useContext, useRef, useState, useEffect } from "react";
 
 interface AudioContextType {
   isPlaying: boolean;
@@ -16,53 +16,82 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const bellRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    // Nadaswaram placeholder music
-    bgMusicRef.current = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3");
+    // Background Music
+    bgMusicRef.current = new Audio("/audio/inkam.mpeg");
     bgMusicRef.current.loop = true;
-    bgMusicRef.current.volume = 0.4;
+    bgMusicRef.current.volume = 0.1;
 
-    // Soft temple bell sound
-    bellRef.current = new Audio("https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3");
-    bellRef.current.volume = 0.8;
+    // Bell Sound
+    bellRef.current = new Audio("/audio/bell.mpeg");
+    bellRef.current.volume = 0.2;
+    bellRef.current.preload = "auto";
 
+    // Cleanup
     return () => {
       if (bgMusicRef.current) {
         bgMusicRef.current.pause();
         bgMusicRef.current = null;
       }
+      if (bellRef.current) {
+        bellRef.current.pause();
+        bellRef.current = null;
+      }
     };
   }, []);
 
   const playMusic = () => {
-    if (bgMusicRef.current) {
-      bgMusicRef.current.play().then(() => setIsPlaying(true)).catch(console.error);
-    }
+    if (!bgMusicRef.current) return;
+
+    bgMusicRef.current
+      .play()
+      .then(() => setIsPlaying(true))
+      .catch(console.error);
   };
 
   const pauseMusic = () => {
-    if (bgMusicRef.current) {
-      bgMusicRef.current.pause();
-      setIsPlaying(false);
-    }
+    if (!bgMusicRef.current) return;
+
+    bgMusicRef.current.pause();
+    setIsPlaying(false);
   };
 
   const toggleMusic = () => {
-    if (isPlaying) {
-      pauseMusic();
-    } else {
-      playMusic();
-    }
+    isPlaying ? pauseMusic() : playMusic();
   };
 
   const playBell = () => {
-    if (bellRef.current) {
-      bellRef.current.currentTime = 0;
-      bellRef.current.play().catch(console.error);
-    }
+    if (!bellRef.current) return;
+
+    const bell = bellRef.current;
+
+    // Reset
+    bell.pause();
+    bell.currentTime = 0.3; // Skip noisy beginning
+    bell.volume = 0.2;
+
+    bell.play().catch(console.error);
+
+    // Fade out last 1 second to prevent popping
+    const fadeOut = setInterval(() => {
+      if (!bell.duration) return;
+
+      const timeLeft = bell.duration - bell.currentTime;
+
+      if (timeLeft <= 1) {
+        bell.volume = Math.max(0, timeLeft * 0.2);
+      }
+
+      if (timeLeft <= 0) {
+        clearInterval(fadeOut);
+        bell.pause();
+      }
+    }, 100);
   };
 
   return (
-    <AudioContext.Provider value={{ isPlaying, playMusic, pauseMusic, toggleMusic, playBell }}>
+    <AudioContext.Provider
+      value={{ isPlaying, playMusic, pauseMusic, toggleMusic, playBell }}
+    >
       {children}
     </AudioContext.Provider>
   );
@@ -70,6 +99,8 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
 export function useGlobalAudio() {
   const context = useContext(AudioContext);
-  if (!context) throw new Error("useGlobalAudio must be used within AudioProvider");
+  if (!context) {
+    throw new Error("useGlobalAudio must be used within AudioProvider");
+  }
   return context;
 }

@@ -39,20 +39,20 @@ export default function Welcome() {
         <div className="relative w-48 h-64 md:w-64 md:h-80 mb-4">
           {/* opening screen nilavilakku lamp */}
           <img 
-            src="https://pixabay.com/get/g2a41b7ba1a7aef23c2db88ebaaf302cb794529ffb144ea436da9abd2436916d6ffce2b3c1196496c67177fc45416b48e879fcbb21d9f18471efcef7d870695fc_1280.jpg" 
+            src="/cartoon-wedding.jpeg" 
             alt="Traditional Nilavilakku" 
             className="w-full h-full object-cover object-center rounded-t-[100px] shadow-2xl opacity-80"
             style={{ maskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)' }}
           />
           {/* Virtual Flame */}
-          <motion.div 
+          {/* <motion.div 
             className="absolute top-[15%] left-1/2 -translate-x-1/2 w-4 h-6 bg-yellow-400 rounded-full blur-[2px]"
             animate={{ 
               scale: [1, 1.2, 0.9, 1.1, 1],
               opacity: [0.8, 1, 0.7, 1, 0.8]
             }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          />
+          /> */}
         </div>
 
         <div className="space-y-4 max-w-md">

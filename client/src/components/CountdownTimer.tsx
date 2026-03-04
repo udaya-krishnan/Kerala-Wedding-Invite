@@ -7,32 +7,42 @@ interface TimeLeft {
   seconds: number;
 }
 
-export default function CountdownTimer({ targetDate }: { targetDate: string }) {
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+export default function CountdownTimer() {
+
+  // 🔥 Set random future date (30 days from now)
+  const targetDate = new Date();
+  targetDate.setDate(targetDate.getDate() + 30);
+  targetDate.setHours(9, 30, 0, 0); // 9:30 AM
+
+  const calculateTimeLeft = (): TimeLeft => {
+    const difference = targetDate.getTime() - new Date().getTime();
+
+    return {
+      days: Math.max(0, Math.floor(difference / (1000 * 60 * 60 * 24))),
+      hours: Math.max(0, Math.floor((difference / (1000 * 60 * 60)) % 24)),
+      minutes: Math.max(0, Math.floor((difference / 1000 / 60) % 60)),
+      seconds: Math.max(0, Math.floor((difference / 1000) % 60))
+    };
+  };
+
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft());
 
   useEffect(() => {
     const timer = setInterval(() => {
-      const difference = new Date(targetDate).getTime() - new Date().getTime();
-      
-      if (difference > 0) {
-        setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60)
-        });
-      } else {
-        clearInterval(timer);
-      }
+      setTimeLeft(calculateTimeLeft());
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [targetDate]);
+  }, []);
 
-  const TimeUnit = ({ value, label }: { value: number, label: string }) => (
+  const TimeUnit = ({ value, label }: { value: number; label: string }) => (
     <div className="flex flex-col items-center p-3 sm:p-4 min-w-[70px] sm:min-w-[90px] rounded-lg glass-card">
-      <span className="text-2xl sm:text-4xl font-display text-foreground font-bold leading-none">{value}</span>
-      <span className="text-xs sm:text-sm uppercase tracking-widest text-primary mt-1 font-semibold">{label}</span>
+      <span className="text-2xl sm:text-4xl font-display text-foreground font-bold leading-none">
+        {String(value).padStart(2, "0")}
+      </span>
+      <span className="text-xs sm:text-sm uppercase tracking-widest text-primary mt-1 font-semibold">
+        {label}
+      </span>
     </div>
   );
 
