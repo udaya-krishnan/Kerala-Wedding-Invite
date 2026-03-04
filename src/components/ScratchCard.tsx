@@ -46,7 +46,6 @@ export default function ScratchCard({ onComplete, children }: ScratchCardProps) 
 
     resizeCanvas();
     window.addEventListener("resize", resizeCanvas);
-
     return () => window.removeEventListener("resize", resizeCanvas);
   }, []);
 
@@ -95,8 +94,7 @@ export default function ScratchCard({ onComplete, children }: ScratchCardProps) 
     e.preventDefault();
     const { x, y } = getPosition(e);
     scratch(x, y);
-
-    checkCompletion(); // ✅ LIVE CHECK
+    checkCompletion();
   };
 
   const handleEnd = () => {
@@ -122,7 +120,6 @@ export default function ScratchCard({ onComplete, children }: ScratchCardProps) 
     const total = pixels.length / 4;
     const percent = (cleared / total) * 100;
 
-    // ✅ Trigger at 60%
     if (percent > 60 && !isRevealed) {
       setIsRevealed(true);
       setShowCalendarButton(true);
@@ -130,26 +127,18 @@ export default function ScratchCard({ onComplete, children }: ScratchCardProps) 
     }
   };
 
+  // ✅ GOOGLE CALENDAR DIRECT OPEN (No Download)
   const addToCalendar = () => {
-    const startDate = "20260715T090000";
-    const endDate = "20260715T120000";
+    const startDate = "20260715T090000Z";
+    const endDate = "20260715T120000Z";
 
-    const ics = `
-BEGIN:VCALENDAR
-VERSION:2.0
-BEGIN:VEVENT
-SUMMARY:Wedding Ceremony
-DESCRIPTION:Join us for the wedding celebration!
-LOCATION:Kerala, India
-DTSTART:${startDate}
-DTEND:${endDate}
-END:VEVENT
-END:VCALENDAR
-`.trim();
+    const url = `https://calendar.google.com/calendar/render?action=TEMPLATE
+      &text=Wedding Ceremony
+      &dates=${startDate}/${endDate}
+      &details=Join us for the wedding celebration!
+      &location=Kerala, India`;
 
-    const blob = new Blob([ics], { type: "text/calendar" });
-    const url = URL.createObjectURL(blob);
-    window.location.href = url;
+    window.open(url.replace(/\s/g, ""), "_blank");
   };
 
   return (
