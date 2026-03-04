@@ -1,0 +1,95 @@
+Create a premium Kerala Hindu Wedding Invitation Website using React and Tailwind CSS.
+
+Theme:
+Traditional Kerala Hindu wedding style.
+Elegant, sacred, simple, and premium.
+Use colors: off-white (kasavu style), gold, temple red, deep maroon.
+Avoid North Indian elements.
+Focus strictly on Kerala aesthetics.
+
+IMPORTANT:
+The website must be fully mobile responsive.
+Design mobile-first.
+It should look perfect on:
+- Small mobile screens
+- Tablets
+- Desktop
+Ensure proper spacing, readable font sizes, responsive grids, and touch-friendly buttons.
+
+Opening Screen:
+
+When website loads:
+- Full-screen dark temple-inspired background.
+- Center glowing Kerala Nilavilakku (traditional temple lamp).
+- Soft golden glow animation.
+- Background Nadaswaram instrumental music (auto-play with mute button).
+- Text:
+  "With divine blessings, we invite you to our wedding ceremony"
+- Elegant gold button:
+  "Tap to Reveal the Invitation"
+
+On tap:
+- Play soft temple bell sound.
+- Smooth fade + zoom transition to main site.
+
+Special Feature:
+
+Scratch-to-Reveal Section:
+- Interactive scratch card hiding the wedding date.
+- Works with mouse (desktop) and touch (mobile).
+- After full reveal, show soft jasmine petal animation.
+
+Main Sections:
+
+1. Hero Section
+- Kerala temple-inspired background.
+- Golden kasavu-style border.
+- Bride & Groom names.
+- Muhurtham date & time.
+- Countdown timer.
+- Decorative jasmine elements in corners.
+
+2. Wedding Events Section
+Cards for:
+- Engagement
+- Mehendi
+- Wedding Ceremony
+- Reception
+
+Each card:
+- Date
+- Time
+- Venue
+- Google Maps button
+Cards must stack vertically on mobile and grid on desktop.
+
+3. Gallery Section
+- Responsive grid layout.
+- 1 column on mobile.
+- 2 columns on tablet.
+- 3+ columns on desktop.
+- Modal popup view.
+
+4. Wedding Video Section
+- Fully responsive video player.
+- Gold frame styling.
+
+5. Footer
+- Thank you message.
+- Subtle temple watermark.
+- Royal gradient background.
+
+Design Requirements:
+- Tailwind CSS
+- Framer Motion animations
+- Lucide React icons
+- Clean reusable components
+- Optimized images
+- Lazy loading
+- Smooth scroll
+- Elegant animations (not excessive)
+
+The design must feel:
+Sacred, Kerala traditional, Emotional, Premium, and Modern.
+Avoid clutter.
+Ensure smooth performance on mobile devices.
